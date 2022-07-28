@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, flash, session
+from flask import Flask, current_app, request, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from pkg_resources import require
 from surveys import satisfaction_survey as survey
@@ -26,11 +26,17 @@ def begin():
 @app.get('/questions/<int:question_num>')
 def questions(question_num):
     """generates the question in survey with options for answers"""
-
-    question = survey.questions[question_num]
-    return render_template('question.html',
-                            question = question,
-                            )
+    current_question_num = len(session['responses'])
+    if question_num != current_question_num:
+        if current_question_num == len(survey.questions):
+            return redirect('/thanks')
+        else:
+            return redirect(f'/questions/{current_question_num}')
+    else:
+        question = survey.questions[question_num]
+        return render_template('question.html',
+                                question = question,
+                                )
 
 @app.post('/answer')
 def answer():
