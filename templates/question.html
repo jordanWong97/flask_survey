@@ -8,9 +8,9 @@
   <!-- you should have one item like this for every choice -->
   <p>
     {% for choice in question.choices %}
-      <input type="radio" name="answer" value="value-goes-here">
-      {{ choice }}
-      {% endfor %}
+    <input type="radio" name="answer" value="{{choice}}">
+    {{ choice }}
+    {% endfor %}
   </p>
 
   <button>Continue</button>
