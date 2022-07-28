@@ -14,7 +14,7 @@ responses = []
 def index():
     """renders page to show user title of survey"""
     return render_template('survey_start.html',
-                        survey_title = survey.title,
+                        survey_title = survey.title, #just pass in survey
                         survey_instructions = survey.instructions)
 
 @app.post('/begin')
@@ -23,11 +23,11 @@ def begin():
     responses.clear()
     return redirect('/questions/0')
 
-@app.get('/questions/<question_num>')
+@app.get('/questions/<int:question_num>')
 def questions(question_num):
     """generates the question in survey with options for answers"""
 
-    question = survey.questions[int(question_num)]
+    question = survey.questions[question_num]
     return render_template('question.html',
                             question = question,
                             )
