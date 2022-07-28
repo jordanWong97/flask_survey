@@ -21,3 +21,22 @@ def index():
 def begin():
     """when user clicks start button, should redirect to questions/0 route"""
     return redirect('/questions/0')
+
+@app.get('/questions/<question_num>')
+def questions(question_num):
+    """generates the question in survey with options for answers"""
+    question = survey.questions[int(question_num)]
+    return render_template('question.html',
+                            question = question,
+                            )
+
+@app.post('/answer')
+def answer():
+    """appends answer to responses list and redirects to next question or thank
+    you if last question"""
+    question_num = len(responses)
+    responses.append(request.form['answer'])
+    if question_num < len(survey.questions):
+        return redirect(f'/questions/{question_num}')
+    else:
+        return redirect('/thanks')
