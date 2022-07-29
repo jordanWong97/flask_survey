@@ -26,13 +26,14 @@ def begin():
 @app.get('/questions/<int:question_num>')
 def questions(question_num):
     """generates the question in survey with options for answers"""
-    current_question_num = len(session['responses'])
-    if question_num != current_question_num:
-        if current_question_num == len(survey.questions):
-            return redirect('/thanks')
-        else:
-            flash('Stop that!')
-            return redirect(f'/questions/{current_question_num}')
+
+    current_question_num = len(session['responses']) #min 29-32
+
+    if current_question_num == len(survey.questions):
+        return redirect('/thanks')
+    elif question_num != current_question_num:
+        flash('Stop that!')
+        return redirect(f'/questions/{current_question_num}')
     else:
         question = survey.questions[question_num]
         return render_template('question.html',
