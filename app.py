@@ -31,6 +31,7 @@ def questions(question_num):
         if current_question_num == len(survey.questions):
             return redirect('/thanks')
         else:
+            flash('Stop that!')
             return redirect(f'/questions/{current_question_num}')
     else:
         question = survey.questions[question_num]
